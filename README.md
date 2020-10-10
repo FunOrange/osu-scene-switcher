@@ -4,4 +4,4 @@ My keytaps are annoying. RNNoise does a good job of removing my keytaps, but it'
 When I'm not talking and tapping a lot (ie. while playing osu!), I want RNNoise to be on.  
 When I'm talking and not tapping (ie. not playing osu!), I want RNNoise to be off.
 
-This OBS script automatically toggle Noise Suppression during osu! gameplay.
+This OBS script automatically toggles Noise Suppression during osu! gameplay.
