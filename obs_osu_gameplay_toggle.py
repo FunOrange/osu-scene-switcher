@@ -48,8 +48,8 @@ def script_load(settings):
     mic_volume_idle = obs.obs_data_get_double(settings, 'mic_volume_idle')
 
     # Delay check valid source until OBS is fully loaded
-    obs.script_log(obs.LOG_INFO, 'Starting in 1 seconds...')
-    obs.timer_add(validate_and_start, 1000)
+    obs.script_log(obs.LOG_INFO, 'Starting in 10 seconds...')
+    obs.timer_add(validate_and_start, 10000)
 
 def script_update(settings):
     global status_file
@@ -89,28 +89,30 @@ def validate_and_start():
     # check if file exists
     if not os.path.isfile(status_file):
         raise FileNotFoundError("Could not find file pointed to by 'osu! status file location'")
+    obs.script_log(obs.LOG_INFO, f'{status_file} found!')
 
     # check if desktop audio source exists
     desktop_audio = obs.obs_get_source_by_name(desktop_audio_source)
     if desktop_audio == None:
-        raise Exception(f"No source '{desktop_audio_source}' named was found.")
+        raise Exception(f"No source named '{desktop_audio_source}' was found.")
     obs.obs_source_release(desktop_audio)
+    obs.script_log(obs.LOG_INFO, f'{desktop_audio_source} found!')
 
     # check if microphone audio source exists
     mic_audio = obs.obs_get_source_by_name(microphone_audio_source)
     if mic_audio == None:
-        raise Exception(f"No source '{microphone_audio_source}' named was found.")
+        raise Exception(f"No source named '{microphone_audio_source}' was found.")
     obs.obs_source_release(mic_audio)
+    obs.script_log(obs.LOG_INFO, f'{microphone_audio_source} found!')
 
-    obs.script_log(obs.LOG_INFO, 'osu! status file found!')
-    obs.script_log(obs.LOG_INFO, 'Target audio source found!')
-    obs.script_log(obs.LOG_INFO, 'Script is active.')
+    obs.script_log(obs.LOG_INFO, 'Script is now active.')
     obs.timer_add(check_status_and_toggle, 1000)
     
 """
 Checks the osu! status file for 'Playing',
 then toggles Noise Suppression accordingly
 """
+previous_status = ''
 def check_status_and_toggle():
     global status_file
     global desktop_audio_source
@@ -119,12 +121,8 @@ def check_status_and_toggle():
     global mic_volume_playing
     global game_volume_idle
     global mic_volume_idle
+    global previous_status
     
-    print(game_volume_playing)
-    print(mic_volume_playing)
-    print(game_volume_idle)
-    print(mic_volume_idle)
-
     # read status file contents
     if not os.path.isfile(status_file):
         obs.timer_remove(check_status_and_toggle)
@@ -135,19 +133,24 @@ def check_status_and_toggle():
     if status == []:
         return
     status = status[0].strip()
+    if status == previous_status: # status has not changed
+        return
 
     # adjust volume according to status
     desktop_audio = obs.obs_get_source_by_name(desktop_audio_source)
     mic_audio = obs.obs_get_source_by_name(microphone_audio_source)
-    print("status: " + status)
     if status == 'Playing':
         obs.obs_source_set_volume(desktop_audio, undb(game_volume_playing))
         obs.obs_source_set_volume(mic_audio, undb(mic_volume_playing))
+        print(f'adjusting volume: {game_volume_playing} dB ({desktop_audio_source}), {mic_volume_playing} dB ({microphone_audio_source})')
     else:
         obs.obs_source_set_volume(desktop_audio, undb(game_volume_idle))
         obs.obs_source_set_volume(mic_audio, undb(mic_volume_idle))
+        print(f'adjusting volume: {game_volume_idle} dB ({desktop_audio_source}), {mic_volume_idle} dB ({microphone_audio_source})')
     obs.obs_source_release(desktop_audio)
     obs.obs_source_release(mic_audio)
+
+    previous_status = status
 
     # target_source = obs.obs_get_source_by_name(desktop_audio_source)
     # noise_suppression = obs.obs_source_get_filter_by_name(target_source, 'Noise Suppression')
