@@ -1,7 +1,7 @@
 # obs-osu-gameplay-toggle
-This OBS script automatically adjusts desktop and microphone audio sources upon entering osu! gameplay. This makes it so that the song isn't playing too loud on the song select screen when i'm trying to talk. It also makes it so that my key taps aren't too loud when i'm playing the game.
+This OBS script automatically adjusts desktop and microphone volume upon entering osu! gameplay. This makes it so that the song isn't playing too loud on the song select screen when i'm trying to talk. It also makes it so that my key taps aren't too loud when i'm playing the game.
 
-The core concept of changing settings depending on gameplay can be extended to, for example, automatically switch between different scenes, one for gameplay and another for outside of gameplay. I'm thinking of making it so that instead of having a facecam and a handcam both on screen at all times, it switches from facecam to handcam when entering gameplay, and then reverts back outside of gameplay. It would be a better use of screen space, plus it would hide my horrid game face from the viewers while i'm concentrated on the game.
+The core concept of changing settings depending on gameplay can be extended to, for example, automatically switching between different scenes, one for gameplay and another for outside of gameplay. I'm thinking of making it so that instead of having a facecam and a handcam both on screen at all times, it switches from facecam to handcam when entering gameplay, and then reverts back outside of gameplay. It would be a better use of screen space, plus it would hide my horrid game face from the viewers while i'm concentrated on the game.
 
 ## Setup/Installation
 ### 1. Get python 3.6.x for OBS
