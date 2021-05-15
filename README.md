@@ -29,7 +29,7 @@ Formatting: `!status!`
 Find the location of this new text file. For example, for me this is `C:\Program Files (x86)\StreamCompanion\Files\osu_status.txt`. Copy this address.  
 
 ### 4. Configure the script
-Go to Tools > Scripts and click on `obs-osu-noise-suppression-switcher.py`. Paste the address you just copied into `osu! status file location`. Then enter the names of the two scenes you want to switch between. For me, the settings look like this:  
+Go to Tools > Scripts and select `osu_scene_switcher.py`. Paste the address you just copied into `osu! status file location`. Then enter the names of the two scenes you want to switch between. For me, the settings look like this:  
 
 osu! status file location: `C:\Program Files (x86)\StreamCompanion\Files\osu_status.txt`  
 Scene to switch to when entering gameplay: `osu! twitch (handcam)`  
